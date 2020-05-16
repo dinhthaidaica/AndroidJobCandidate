@@ -34,12 +34,12 @@ class DetailActivityViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .map {
-                it.sortedByDescending { it.id }
+                val sortedList = it.sortedByDescending { it.id }
                 val comments = mutableListOf<CommentItem>()
-                if (it.size < 3) {
-                    it.forEach { item -> comments.add(CommentItem(item)) }
+                if (sortedList.size < 3) {
+                    sortedList.forEach { item -> comments.add(CommentItem(item)) }
                 } else {
-                    for ((index, item) in it.withIndex()) {
+                    for ((index, item) in sortedList.withIndex()) {
                         if (index < 3) {
                             comments.add(CommentItem(item))
                         }
