@@ -13,6 +13,7 @@ dependencies {
     implementation remoteDependencies.rxKotlin
     implementation remoteDependencies.rxAndroid
     implementation remoteDependencies.rxJava
+    implementation remoteDependencies.coroutines
     implementation remoteDependencies.gson
     implementation remoteDependencies.okHttp
     implementation remoteDependencies.okHttpLogger

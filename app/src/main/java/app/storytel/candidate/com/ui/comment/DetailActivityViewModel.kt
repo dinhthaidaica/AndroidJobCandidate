@@ -3,13 +3,16 @@ package app.storytel.candidate.com.ui.comment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.storytel.candidate.com.UiThread
+import androidx.lifecycle.viewModelScope
+import app.storytel.candidate.com.data.model.Comment
 import app.storytel.candidate.com.data.usecase.GetComments
 import app.storytel.candidate.com.model.Resource
 import app.storytel.candidate.com.model.ResourceState
 import app.storytel.candidate.com.model.ui.CommentItem
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailActivityViewModel(
     private val getComments: GetComments
@@ -30,29 +33,32 @@ class DetailActivityViewModel(
 
     fun fetchComments(postId: Int) {
         commentLiveData.postValue(commentResource.loading())
-        disposable = getComments.execute(GetComments.Params(postId))
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .map {
-                val sortedList = it.sortedByDescending { it.id }
-                val comments = mutableListOf<CommentItem>()
-                if (sortedList.size < 3) {
-                    sortedList.forEach { item -> comments.add(CommentItem(item)) }
-                } else {
-                    for ((index, item) in sortedList.withIndex()) {
-                        if (index < 3) {
-                            comments.add(CommentItem(item))
-                        }
+        viewModelScope.launch {
+            try {
+                val list = getComments.getComments(postId)
+                val sortedList = list.sortedByDescending { it.id }
+                val comments = handleDataMapping(sortedList)
+
+                commentLiveData.postValue(commentResource.success(comments))
+            } catch (exception: Exception) {
+                commentLiveData.postValue(commentResource.error(exception.message ?: "", null))
+            }
+        }
+    }
+
+    private suspend fun handleDataMapping(sortedList: List<Comment>): MutableList<CommentItem> {
+        return withContext(Dispatchers.IO) {
+            val comments = mutableListOf<CommentItem>()
+            if (sortedList.size < 3) {
+                sortedList.forEach { item -> comments.add(CommentItem(item)) }
+            } else {
+                for ((index, item) in sortedList.withIndex()) {
+                    if (index < 3) {
+                        comments.add(CommentItem(item))
                     }
                 }
-
-                comments
             }
-            .observeOn(UiThread().scheduler)
-            .subscribe({
-                commentLiveData.postValue(commentResource.success(it))
-            }, {
-                commentLiveData.postValue(commentResource.error(it.message ?: "", null))
-            })
+            comments
+        }
     }
 }

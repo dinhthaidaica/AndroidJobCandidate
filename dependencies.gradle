@@ -30,9 +30,11 @@ ext {
     gsonVersion = '2.8.1'
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
-    retrofitVersion = '2.3.0'
+    retrofitVersion = '2.9.0'
     supportLibraryVersion = '28.0.0'
     flexibleAdapterVersion = '5.0.5'
+    coroutinesVersion = '1.3.7'
+    lifecycleVersion = '2.2.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -60,7 +62,8 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
-            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}"
     ]
 
     dataTestDependencies = [
@@ -82,7 +85,8 @@ ext {
             okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
-            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}"
     ]
 
     remoteTestDependencies = [
@@ -113,7 +117,11 @@ ext {
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             constraintLayout:   "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
-            flexibleAdapter:    "eu.davidea:flexible-adapter:${flexibleAdapterVersion}"
+            flexibleAdapter:    "eu.davidea:flexible-adapter:${flexibleAdapterVersion}",
+            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
+            lifecycleViewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}",
+            lifecycleLivedata:  "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycleVersion}",
+            lifecycleCommon:    "androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}"
     ]
 
     appTestDependencies = [

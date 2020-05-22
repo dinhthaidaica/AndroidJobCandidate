@@ -61,6 +61,10 @@ dependencies {
     kapt appDependencies.glideCompiler
     implementation appDependencies.constraintLayout
     implementation appDependencies.flexibleAdapter
+    implementation appDependencies.coroutines
+    implementation appDependencies.lifecycleViewmodel
+    implementation appDependencies.lifecycleLivedata
+    implementation appDependencies.lifecycleCommon
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     // Koin for Android

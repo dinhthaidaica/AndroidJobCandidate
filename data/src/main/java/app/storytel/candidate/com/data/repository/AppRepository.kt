@@ -3,14 +3,12 @@ package app.storytel.candidate.com.data.repository
 import app.storytel.candidate.com.data.model.Comment
 import app.storytel.candidate.com.data.model.Photo
 import app.storytel.candidate.com.data.model.Post
-import io.reactivex.Flowable
-import io.reactivex.Single
 
 interface AppRepository {
 
-    fun getPosts(): Flowable<List<Post>>
+    suspend fun getPosts(): List<Post>
 
-    fun getPhotos(): Flowable<List<Photo>>
+    suspend fun getPhotos(): List<Photo>
 
-    fun getComments(postId: Int): Single<List<Comment>>
+    suspend fun getComments(postId: Int): List<Comment>
 }

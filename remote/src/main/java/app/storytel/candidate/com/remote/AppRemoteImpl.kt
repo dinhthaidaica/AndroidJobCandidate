@@ -7,8 +7,6 @@ import app.storytel.candidate.com.data.source.AppDataStore
 import app.storytel.candidate.com.remote.mapper.CommentMapper
 import app.storytel.candidate.com.remote.mapper.PhotoMapper
 import app.storytel.candidate.com.remote.mapper.PostMapper
-import io.reactivex.Flowable
-import io.reactivex.Single
 
 class AppRemoteImpl constructor(
     private val endpoints: Endpoints,
@@ -17,31 +15,25 @@ class AppRemoteImpl constructor(
     private val commentMapper: CommentMapper
 ) : AppDataStore {
 
-    override fun getPosts(): Flowable<List<Post>> {
-        return endpoints.getPosts()
-            .map {
-                val posts = mutableListOf<Post>()
-                it.forEach { item -> posts.add(postMapper.mapFromRemote(item)) }
-                posts
-            }
+    override suspend fun getPosts(): List<Post> {
+        val list = endpoints.getPostsAsync()
+        val result = mutableListOf<Post>()
+        list.forEach { item -> result.add(postMapper.mapFromRemote(item)) }
+        return result
     }
 
-    override fun getPhotos(): Flowable<List<Photo>> {
-        return endpoints.getPhotos()
-            .map {
-                val photos = mutableListOf<Photo>()
-                it.forEach { item -> photos.add(photoMapper.mapFromRemote(item)) }
-                photos
-            }
+    override suspend fun getPhotos(): List<Photo> {
+        val list = endpoints.getPhotosAsync()
+        val result = mutableListOf<Photo>()
+        list.forEach { item -> result.add(photoMapper.mapFromRemote(item)) }
+        return result
     }
 
-    override fun getComments(postId: Int): Single<List<Comment>> {
-        return endpoints.getComments(postId)
-            .map {
-                val comments = mutableListOf<Comment>()
-                it.forEach { item -> comments.add(commentMapper.mapFromRemote(item)) }
-                comments
-            }
+    override suspend fun getComments(postId: Int): List<Comment> {
+        val list = endpoints.getCommentsAsync(postId)
+        val comments = mutableListOf<Comment>()
+        list.forEach { item -> comments.add(commentMapper.mapFromRemote(item)) }
+        return comments
     }
 
 }

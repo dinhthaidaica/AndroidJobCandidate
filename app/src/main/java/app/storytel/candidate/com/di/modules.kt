@@ -40,10 +40,10 @@ val applicationModule = module(override = true) {
 
 val mainActivityModule: Module = module {
     viewModel { MainActivityViewModel(get()) }
-    factory { GetPostAndPhoto(get(), get(), get()) }
+    factory { GetPostAndPhoto(get()) }
 }
 
 val detailActivityModule: Module = module {
     viewModel { DetailActivityViewModel(get()) }
-    factory { GetComments(get(), get(), get()) }
+    factory { GetComments(get()) }
 }
